@@ -6,12 +6,20 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <syslog.h>
+#include <iostream>
 
 Daemon::Daemon(const std::string &daemonName) :
     daemonName_(daemonName)
 {
+
+
+}
+
+bool Daemon::init()
+{
+    std::string daemonName_ = "juneserver";
     /* Fork off the parent process */
-    pid_ = fork();
+     pid_t pid_ = fork();
 
     /* An error occurred */
     if (pid_ < 0)
@@ -58,4 +66,9 @@ Daemon::Daemon(const std::string &daemonName) :
     /* Open the log file */
     openlog (daemonName_.c_str(), LOG_PID, LOG_DAEMON);
 
+    std::string msg = daemonName_;
+    msg.append(" daemon started");
+    syslog (LOG_NOTICE,  "%s daemon started",  msg.c_str());
+    std::cerr << msg << std::endl;
+    return true;
 }

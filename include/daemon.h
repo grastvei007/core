@@ -9,9 +9,10 @@ class Daemon
 public:
     Daemon(const std::string &daemonName);
 
+    static bool init();
 
 private:
-    pid_t pid_;
+    //pid_t pid_;
     std::string daemonName_;
 };
 
